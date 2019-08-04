@@ -22,5 +22,17 @@ public class PlayerMovement : MonoBehaviour
         {
             player.position += transform.forward * moveSpeed * Time.deltaTime;
         }
+        else if (Input.GetAxis("Vertical") < -0.1f)
+        {
+            player.position -= transform.forward * moveSpeed * Time.deltaTime;
+        }
+        else if (Input.GetAxis("Horizontal") > 0.1f)
+        {
+            player.position += transform.right * moveSpeed * Time.deltaTime;
+        }
+        else if (Input.GetAxis("Horizontal") < -0.1f)
+        {
+            player.position -= transform.right * moveSpeed * Time.deltaTime;
+        }
     }
 }

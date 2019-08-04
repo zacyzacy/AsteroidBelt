@@ -11,7 +11,7 @@ public class Gravity : MonoBehaviour
     public Transform gravitySource;
 
     [SerializeField]
-    float transitionTime = 2, transitionSpeed = 2;
+    float transitionSpeed = 1;
 
     private bool lerpRotation = false;
     // Start is called before the first frame update
@@ -33,15 +33,7 @@ public class Gravity : MonoBehaviour
                 Vector3 gravityNormal = Vector3.Normalize(hit.normal);
                 Debug.DrawRay(hit.point, gravityNormal, Color.green);
                 Quaternion toRotation = Quaternion.FromToRotation(transform.up, gravityNormal) * transform.rotation;
-
-                if (lerpRotation)
-                {
-                    transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, Time.deltaTime * transitionTime);
-                }
-                else
-                {
-                    transform.rotation = toRotation;
-                }
+                transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, Time.deltaTime * transitionSpeed);
                 rb.AddForce(-transform.up.normalized * gravityForce);
             }
         }
@@ -49,16 +41,7 @@ public class Gravity : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         gravitySource = other.transform;
-        StartCoroutine(ChangePlanet());
     }
 
-    private IEnumerator ChangePlanet()
-    {
-        while (true)
-        {
-            lerpRotation = true;
-            yield return new WaitForSeconds(transitionTime);
-            lerpRotation = false;
-        }
-    }
+
 }
