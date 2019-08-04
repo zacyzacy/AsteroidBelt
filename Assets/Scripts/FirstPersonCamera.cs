@@ -9,13 +9,15 @@ public class FirstPersonCamera : MonoBehaviour
     private float yaw = 0.0f;
     private float pitch = 0.0f;
 
+    [SerializeField]
+    private Transform gimbal;
+
     void Update()
     {
         //TODO need to check if upside down and reverse pitch.
-
-        yaw += rotationSpeed * Input.GetAxis("Mouse X");
-        pitch -= rotationSpeed * Input.GetAxis("Mouse Y");
-
-        transform.localEulerAngles = new Vector3(pitch, yaw, 0.0f);
+        yaw = Input.GetAxis("Mouse X");
+        pitch = Input.GetAxis("Mouse Y");
+        transform.RotateAround(transform.position, transform.right, -pitch * rotationSpeed);
+        gimbal.RotateAround(gimbal.position, gimbal.up, yaw * rotationSpeed);
     }
 }
